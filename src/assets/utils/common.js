@@ -1,6 +1,6 @@
 let DTGlobe = { 
     viewer: '',
-    pipelineLayers: [], 
+    citiesPopulationEntity:[],
     equipmentLayers: [],
     handle: '1', 
     fog: '', rain: '', snow: '', 
@@ -10,9 +10,9 @@ let DTGlobe = {
 const getViewer = () => {
     return DTGlobe.viewer;
 }
-
 export {
     DTGlobe,
     //返回全局viewer对象
     getViewer,
+    
 }

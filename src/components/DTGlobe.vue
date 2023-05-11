@@ -1,46 +1,23 @@
 <template>
   <div>
     <div id="cesiumContainer"></div>
+    <div class="child" v-show="inUniverse"></div>
   </div>
 </template>
 
 <script>
 import {cities} from '@/assets/data/cities'
 import { DTGlobe } from '@/assets/utils/common'
+import {addCitiesPopulationColumn} from '@/assets/utils/addColumn'
 export default {
+    data(){
+      return {
+        inUniverse:true
+      }
+    },
     methods:{
       //加载城市人口柱状示意线
-      addCitiesPopulationColumn(){
-        const viewer = DTGlobe.viewer
-        console.log(cities,'cities')
-        cities.points.forEach(city=>{
-        let startPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, 0)
-        let endPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, city.people*700)
-        var lastTime = Date.now()*50;
-        viewer.entities.add({
-          position: endPos,
-            polyline: {
-                positions: new Cesium.CallbackProperty(() => {
-                  var now = Date.now()*50;
-                  // console.log((now-lastTime)/1000%100/100)
-                    return [startPos,Cesium.Cartesian3.fromDegrees(city.lon, city.lat, city.people*700*((now-lastTime)/1000%100/100))];
-                }, false),
-                width: 3,
-                material: Cesium.Color.SKYBLUE ,
-                clampToGround: false,
-                // classificationType: Cesium.ClassificationType.CESIUM_3D_TILE,
-                // disableDepthTestDistance: 500000
-            },
-            point: {
-                pixelSize: 5,
-                color:new Cesium.CallbackProperty(() => {
-                  var now = Date.now()*50;
-                    return Cesium.Color.SILVER .withAlpha((now-lastTime)/1000%100/100);
-                }, false) ,
-            },
-        });
-       })
-      },
+      addCitiesPopulationColumn: addCitiesPopulationColumn,
         //初始化入口函数
         initCesium(){
             //设置token
@@ -51,6 +28,7 @@ export default {
                 geocoder: false,
                 homeButton: false,
                 sceneModePicker: false,
+                selectionIndicator:false,
                 baseLayerPicker: false,
                 fullscreenButton: false,
                 navigationHelpButton: false,
@@ -75,6 +53,15 @@ export default {
             //把初始化的viewer的的指针存到全局的对象里面方便调用
             DTGlobe.viewer=viewer
             viewer._cesiumWidget._creditContainer.style.display = "none"//取消版权信息
+            //添加地球点击事件
+            let Entityhandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+            Entityhandler.setInputAction(function (movement) {
+            console.log(movement, 'move')
+            //城市人口柱状图显隐
+            // DTGlobe.citiesPopulationEntity.forEach(entity=>{
+            //   entity.show=!entity.show
+            // })
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
             let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
               url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
@@ -96,7 +83,7 @@ export default {
               roll: 0,
              },
            })
-           this.addCitiesPopulationColumn()
+           this.addCitiesPopulationColumn(cities,viewer)
         },
     },
     mounted(){
@@ -107,6 +94,18 @@ export default {
 </script>
 
 <style  scope>
+.child{
+  display: block;
+  position: absolute;
+  background:url('~@/assets/imgs/astrocat.png');
+  height: 70%;
+  width: 35%;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1000;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 html,body,#cesiumContainer {
    width:100%;
   height: 100%;
