@@ -1,10 +1,12 @@
-export const addCitiesPopulationColumn = (cities,viewer)=>{
+export const addCitiesPopulationColumn = (cities,viewer,DTGlobe)=>{
      // const viewer = DTGlobe.viewer
      console.log(cities,'cities')
      cities.points.forEach(city=>{
      let startPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, 0)
      let endPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, city.people*700)
      var lastTime = Date.now()*50;
+     DTGlobe.citiesPopulationEntity=[]
+     DTGlobe.citiesPopulationEntity.push(
        viewer.entities.add({
          show:true,
          position: endPos,
@@ -26,6 +28,6 @@ export const addCitiesPopulationColumn = (cities,viewer)=>{
              }, false) ,
          },
        })
-     
+    )
     })
 }

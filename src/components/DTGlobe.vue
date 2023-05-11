@@ -9,6 +9,7 @@
 import {cities} from '@/assets/data/cities'
 import { DTGlobe } from '@/assets/utils/common'
 import {addCitiesPopulationColumn} from '@/assets/utils/addColumn'
+import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 export default {
     data(){
       return {
@@ -18,6 +19,8 @@ export default {
     methods:{
       //加载城市人口柱状示意线
       addCitiesPopulationColumn: addCitiesPopulationColumn,
+      //添加轨道和卫星的方法
+      addSatelliteOrbital:addSatelliteOrbital,
         //初始化入口函数
         initCesium(){
             //设置token
@@ -50,17 +53,17 @@ export default {
                 allowTextureFilterAnisotropic: true,
                 },
               });
+            viewer.scene.skyBox.show = false
+            viewer.scene.screenSpaceCameraController.minimumZoomDistance = 10
+            // 隐藏月亮
+            viewer.scene.moon.show=false;
             //把初始化的viewer的的指针存到全局的对象里面方便调用
             DTGlobe.viewer=viewer
             viewer._cesiumWidget._creditContainer.style.display = "none"//取消版权信息
             //添加地球点击事件
             let Entityhandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
             Entityhandler.setInputAction(function (movement) {
-            console.log(movement, 'move')
-            //城市人口柱状图显隐
-            // DTGlobe.citiesPopulationEntity.forEach(entity=>{
-            //   entity.show=!entity.show
-            // })
+                console.log(movement, 'move')
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
             let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
@@ -83,7 +86,10 @@ export default {
               roll: 0,
              },
            })
-           this.addCitiesPopulationColumn(cities,viewer)
+           //添加城市人口柱状图
+           this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
+           //添加卫星和轨道
+           this.addSatelliteOrbital(viewer,DTGlobe)
         },
     },
     mounted(){

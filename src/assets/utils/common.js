@@ -1,6 +1,7 @@
 let DTGlobe = { 
     viewer: '',
     citiesPopulationEntity:[],
+    SatelliteOrbitalEntity:[],
     equipmentLayers: [],
     handle: '1', 
     fog: '', rain: '', snow: '', 
