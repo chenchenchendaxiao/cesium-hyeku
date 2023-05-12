@@ -4,6 +4,7 @@ let DTGlobe = {
     SatelliteOrbitalEntity:[],//卫星和轨道
     CityFlyLines:[],// 城市轨迹弧线
     RiverEntity:[],//河流流动线
+    ChannelEntity:[],//航道流动线
     equipmentLayers: [],
     handle: '1', 
     fog: '', rain: '', snow: '', 

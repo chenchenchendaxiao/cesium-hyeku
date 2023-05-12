@@ -6,13 +6,17 @@
 </template>
 
 <script>
+//数据
 import { cities } from '@/assets/data/cities'
 import { river,yellowRiver } from '@/assets/data/river'
+import { channel1, channel2 } from '@/assets/data/channel'
 import { DTGlobe } from '@/assets/utils/common'
-import {addCitiesPopulationColumn} from '@/assets/utils/addColumn'
+//方法
+import { addCitiesPopulationColumn } from '@/assets/utils/addColumn'
 import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
+import { addChannal } from "@/assets/utils/addChannel"
 export default {
     data(){
       return {
@@ -28,6 +32,8 @@ export default {
         addSatelliteOrbital:addSatelliteOrbital,
         //添加河流的方法
         addRiver:addRiver,
+        //添加航道的方法
+        addChannal:addChannal,
         resetView(){
           DTGlobe.viewer.camera.flyTo({
                destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
@@ -116,6 +122,10 @@ export default {
            this.addRiver(river,viewer,DTGlobe)
            //添加黄河
            this.addRiver(yellowRiver,viewer,DTGlobe)
+           //添加航道1
+           this.addChannal(channel1,viewer,DTGlobe)
+           //添加航道2
+           this.addChannal(channel2,viewer,DTGlobe)
         },
     },
     mounted(){
