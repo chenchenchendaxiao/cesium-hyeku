@@ -7,9 +7,11 @@
 
 <script>
 import { cities } from '@/assets/data/cities'
+import { river,yellowRiver } from '@/assets/data/river'
 import { DTGlobe } from '@/assets/utils/common'
 import {addCitiesPopulationColumn} from '@/assets/utils/addColumn'
 import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
+import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 export default {
     data(){
@@ -24,6 +26,8 @@ export default {
         addCitiesPopulationColumn: addCitiesPopulationColumn,
         //添加轨道和卫星的方法
         addSatelliteOrbital:addSatelliteOrbital,
+        //添加河流的方法
+        addRiver:addRiver,
         resetView(){
           DTGlobe.viewer.camera.flyTo({
                destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
@@ -106,8 +110,12 @@ export default {
            this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
            //添加卫星和轨道
            this.addSatelliteOrbital(viewer,DTGlobe)
-          //  添加轨迹线
-          this.addFlyLines(cities,viewer,DTGlobe)
+           //添加轨迹线
+           this.addFlyLines(cities,viewer,DTGlobe)
+           //添加长江
+           this.addRiver(river,viewer,DTGlobe)
+           //添加黄河
+           this.addRiver(yellowRiver,viewer,DTGlobe)
         },
     },
     mounted(){
