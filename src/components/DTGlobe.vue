@@ -6,10 +6,11 @@
 </template>
 
 <script>
-import {cities} from '@/assets/data/cities'
+import { cities } from '@/assets/data/cities'
 import { DTGlobe } from '@/assets/utils/common'
 import {addCitiesPopulationColumn} from '@/assets/utils/addColumn'
 import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
+import { addFlyLines } from "@/assets/utils/addFlyLines";
 export default {
     data(){
       return {
@@ -17,22 +18,24 @@ export default {
       }
     },
     methods:{
-      resetView(){
-        DTGlobe.viewer.camera.flyTo({
-             destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
-             orientation: {
-              // 指向
-              heading:6.191112082998764,
-              // 视角
-              pitch: -1.5691052850884537,
-              roll: 0,
-             },
-           })
-      },
-      //加载城市人口柱状示意线
-      addCitiesPopulationColumn: addCitiesPopulationColumn,
-      //添加轨道和卫星的方法
-      addSatelliteOrbital:addSatelliteOrbital,
+        //加载城市之间的飞线
+        addFlyLines:addFlyLines,
+        //加载城市人口柱状示意线
+        addCitiesPopulationColumn: addCitiesPopulationColumn,
+        //添加轨道和卫星的方法
+        addSatelliteOrbital:addSatelliteOrbital,
+        resetView(){
+          DTGlobe.viewer.camera.flyTo({
+               destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
+               orientation: {
+                // 指向
+                heading:6.191112082998764,
+                // 视角
+                pitch: -1.5691052850884537,
+                roll: 0,
+               },
+             })
+        },
         //初始化入口函数
         initCesium(){
             //设置token
@@ -53,6 +56,7 @@ export default {
                 vrButton: false,
                 infoBox: false,
                 contextOptions: {
+                requestWebgl1: true,
                 webgl: {
                   alpha: true,
                   depth: false,
@@ -102,6 +106,8 @@ export default {
            this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
            //添加卫星和轨道
            this.addSatelliteOrbital(viewer,DTGlobe)
+          //  添加轨迹线
+          this.addFlyLines(cities,viewer,DTGlobe)
         },
     },
     mounted(){

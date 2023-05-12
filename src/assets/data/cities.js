@@ -191,14 +191,6 @@ let cities = {
         size: 15,
         people:28
       },
-      {//西宁
-        id: 24,
-        lon: 102.04758,
-        lat: 36.532589,
-        color: Cesium.Color.PINK,
-        size: 15,
-        people:246
-      },
       {//阿布贾
         id: 25,
         lon:7.269511,

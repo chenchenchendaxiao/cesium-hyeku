@@ -1,7 +1,8 @@
 let DTGlobe = { 
     viewer: '',
-    citiesPopulationEntity:[],
-    SatelliteOrbitalEntity:[],
+    citiesPopulationEntity:[],//城市人口柱状图
+    SatelliteOrbitalEntity:[],//卫星和轨道
+    CityFlyLines:[],// 城市轨迹弧线
     equipmentLayers: [],
     handle: '1', 
     fog: '', rain: '', snow: '', 
