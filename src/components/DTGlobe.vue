@@ -17,10 +17,11 @@ import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
+import bus from '@/assets/utils/bus'
 export default {
     data(){
       return {
-        inUniverse:true
+        inUniverse:false
       }
     },
     methods:{
@@ -130,6 +131,9 @@ export default {
     },
     mounted(){
         this.initCesium()
+        bus.$on('inUniverse', (e) => {
+          this.inUniverse=e
+        })
     }
 
 }

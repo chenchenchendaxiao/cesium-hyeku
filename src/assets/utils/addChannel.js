@@ -9,6 +9,7 @@ export const addChannal = (data,viewer,DTGlobe)=>{
     })
     DTGlobe.ChannelEntity.push(
         viewer.entities.add({
+            show:false,
             polyline: {
               positions: result,
               width: 4,
@@ -25,6 +26,7 @@ export const addChannal = (data,viewer,DTGlobe)=>{
     }
     let factor = 0
     const vehicleEntity = viewer.entities.add({
+        show:false,
         position: new Cesium.CallbackProperty(function() {
            if (factor > Channelpos.length-1) {
                factor = 0;

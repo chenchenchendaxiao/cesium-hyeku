@@ -5,10 +5,9 @@ export const addCitiesPopulationColumn = (cities,viewer,DTGlobe)=>{
      let startPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, 0)
      let endPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, city.people*700)
      var lastTime = Date.now()*50;
-     DTGlobe.citiesPopulationEntity=[]
      DTGlobe.citiesPopulationEntity.push(
        viewer.entities.add({
-         show:true,
+         show:false,
          position: endPos,
          polyline: {
              positions: new Cesium.CallbackProperty(() => {

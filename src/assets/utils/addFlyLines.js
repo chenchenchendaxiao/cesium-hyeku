@@ -34,13 +34,14 @@ export const addFlyLines = (data,viewer,DTGlobe)=>{
       0
     )
     //中心点
-    viewer.entities.add({
+    DTGlobe.CityFlyLines.push(viewer.entities.add({
       position: startPoint,
+      show:false,
       point: {
         pixelSize: center.size,
         color: center.color,
       },
-    })
+    }))
     //大批量操作时，临时禁用事件可以提高性能
     viewer.entities.suspendEvents() //散点
     cities.map((city) => {
@@ -51,14 +52,16 @@ export const addFlyLines = (data,viewer,DTGlobe)=>{
       })
   
       const endPoint = Cesium.Cartesian3.fromDegrees(city.lon, city.lat, 0)
-      viewer.entities.add({
+      DTGlobe.CityFlyLines.push(viewer.entities.add({
         position: endPoint,
+        show:false,
         point: {
           pixelSize: city.size - 10,
           color: city.color,
         },
-      })
+      }))
       DTGlobe.CityFlyLines.push(viewer.entities.add({
+        show:false,
         polyline: {
           positions: generateCurve(startPoint, endPoint),
           width: 2,

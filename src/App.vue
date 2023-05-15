@@ -2,13 +2,16 @@
   <div id="app">
 
   <DTGlobe />
+  <LayerManagemen />
   </div>
 </template>
 <script>
-import DTGlobe from '@/components/DTGlobe'
+import DTGlobe from '@/components/DTGlobe.vue'
+import LayerManagemen from '@/components/LayerManagemen.vue';
 export default {
   components:{
-    DTGlobe
+    DTGlobe,
+    LayerManagemen
   },
   methods:{
 

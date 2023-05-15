@@ -1,6 +1,7 @@
 import FlowLineProperty from './FlowLineProperty'
 export const addRiver = (data,viewer,DTGlobe)=>{
     DTGlobe.RiverEntity.push(viewer.entities.add({
+        show:false,
         polyline: {
           positions: data,
           width: 3,

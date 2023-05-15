@@ -18,9 +18,9 @@ export const addSatelliteOrbital = (viewer,DTGlobe)=>{
         lonlatArr.push(3500000)
     }
     lonlatArr= Cesium.Cartesian3.fromDegreesArrayHeights(lonlatArr)
-    DTGlobe.SatelliteOrbitalEntity=[]
     DTGlobe.SatelliteOrbitalEntity.push(
       viewer.entities.add({
+          show:false,
           polyline: {
               positions: lonlatArr,
               width: 3,
@@ -35,6 +35,7 @@ export const addSatelliteOrbital = (viewer,DTGlobe)=>{
     }
     let factor3=0
     const entity = viewer.entities.add({
+        show:false,
         name: '卫星模型',
         position: new Cesium.CallbackProperty(function() {
           if (factor3 > Satellitelpos.length-1) {
@@ -50,5 +51,5 @@ export const addSatelliteOrbital = (viewer,DTGlobe)=>{
           maximumScale: 120000, // 获取或设置数字属性，该属性指定最大比例模型的大小
         }
     })
-    
+    DTGlobe.SatelliteOrbitalEntity.push(entity)
 }
