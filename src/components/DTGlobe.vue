@@ -17,6 +17,8 @@ import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
+import { addCakeMap } from "@/assets/utils/addCakeMap";
+//bus实例用于通信
 import bus from '@/assets/utils/bus'
 export default {
     data(){
@@ -35,6 +37,9 @@ export default {
         addRiver:addRiver,
         //添加航道的方法
         addChannal:addChannal,
+        //添加县域行政区划驾驶舱的方法
+        addCakeMap:addCakeMap,
+        //重置为初始宇宙视角的方法
         resetView(){
           DTGlobe.viewer.camera.flyTo({
                destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
@@ -45,6 +50,19 @@ export default {
                 pitch: -1.5691052850884537,
                 roll: 0,
                },
+             })
+        },
+        flyToCounty(){
+          DTGlobe.viewer.camera.flyTo({
+               destination: {x: -2785167.766521418, y: 4818273.782498095, z: 3224790.1169908945} ,
+               orientation: {
+                // 指向
+                heading:6.271140420363835,
+                // 视角
+                pitch: -1.0765189351007636,
+                roll: 6.283185303822246,
+               },
+
              })
         },
         //初始化入口函数
@@ -90,7 +108,8 @@ export default {
             //添加地球点击事件
             let Entityhandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
             Entityhandler.setInputAction(function (movement) {
-                console.log(movement, 'move')
+                // console.log(movement, 'move')
+                console.log(viewer.camera.position,viewer.camera.heading,viewer.camera.pitch,viewer.camera.roll)
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
             let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
@@ -103,36 +122,36 @@ export default {
             lightEsriLayer.hue=0
             lightEsriLayer.saturation=0.66
             // 初始化定位
-            viewer.camera.flyTo({
-             destination: {x: -11026509.639435524, y: 25863687.66217448, z: 9970696.880994387} ,
-             orientation: {
-              // 指向
-              heading:6.191112082998764,
-              // 视角
-              pitch: -1.5691052850884537,
-              roll: 0,
-             },
-           })
-           //添加城市人口柱状图
-           this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
-           //添加卫星和轨道
-           this.addSatelliteOrbital(viewer,DTGlobe)
-           //添加轨迹线
-           this.addFlyLines(cities,viewer,DTGlobe)
-           //添加长江
-           this.addRiver(river,viewer,DTGlobe)
-           //添加黄河
-           this.addRiver(yellowRiver,viewer,DTGlobe)
-           //添加航道1
-           this.addChannal(channel1,viewer,DTGlobe)
-           //添加航道2
-           this.addChannal(channel2,viewer,DTGlobe)
+            // this.resetView()
+            this.resetView()
+            //添加城市人口柱状图
+            this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
+            //添加卫星和轨道
+            this.addSatelliteOrbital(viewer,DTGlobe)
+            //添加轨迹线
+            this.addFlyLines(cities,viewer,DTGlobe)
+            //添加长江
+            this.addRiver(river,viewer,DTGlobe)
+            //添加黄河
+            this.addRiver(yellowRiver,viewer,DTGlobe)
+            //添加航道1
+            this.addChannal(channel1,viewer,DTGlobe)
+            //添加航道2
+            this.addChannal(channel2,viewer,DTGlobe)
+            //添加德清行政区划蛋糕图
+            this.addCakeMap(viewer,DTGlobe)
         },
     },
     mounted(){
         this.initCesium()
         bus.$on('inUniverse', (e) => {
           this.inUniverse=e
+        })
+        bus.$on('resetView', (e) => {
+          this.resetView()
+        })
+        bus.$on('flyToCounty', (e) => {
+          this.flyToCounty()
         })
     }
 

@@ -29,18 +29,27 @@ export default {
               if(this.currentIndex==0){
                 //宇宙场景
                 this.controlUniverse(true)
+                bus.$emit('resetView',true)
               }else if(this.currentIndex == 1){
                 //科技城市
               }else{
                 //行政县域
+                bus.$emit('flyToCounty',true)
+                DTGlobe.CakeMapEntity.forEach(entity=>{
+                  entity.show=true
+                })
               }
             } else {
               this.currentIndex = -1
+              bus.$emit('resetView',true)
             }
         },
         hideAllEntity(){
             this.controlUniverse(false)
             bus.$emit('inUniverse', false);
+            DTGlobe.CakeMapEntity.forEach(entity=>{
+                  entity.show=false
+                })
         },
         controlUniverse(state){
             bus.$emit('inUniverse', state);

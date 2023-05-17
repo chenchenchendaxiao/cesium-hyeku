@@ -1,6 +1,4 @@
 export const addCitiesPopulationColumn = (cities,viewer,DTGlobe)=>{
-     // const viewer = DTGlobe.viewer
-     console.log(cities,'cities')
      cities.points.forEach(city=>{
      let startPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, 0)
      let endPos=Cesium.Cartesian3.fromDegrees(city.lon, city.lat, city.people*700)

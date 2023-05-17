@@ -12,7 +12,7 @@ function PolylineTrailLinkMaterialProperty(color, duration, repeat, type) {
     this.repeat = repeat;
     this._time = (new Date()).getTime();
     this._type = type;
-    console.log(this._type, 'this._type构造')
+    // console.log(this._type, 'this._type构造')
 }
 Object.defineProperties(PolylineTrailLinkMaterialProperty.prototype, {
     isConstant: {

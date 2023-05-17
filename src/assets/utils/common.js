@@ -5,6 +5,7 @@ let DTGlobe = {
     CityFlyLines:[],// 城市轨迹弧线
     RiverEntity:[],//河流流动线
     ChannelEntity:[],//航道流动线
+    CakeMapEntity:[],//蛋糕图行政区划实体集合
     equipmentLayers: [],
     handle: '1', 
     fog: '', rain: '', snow: '', 
