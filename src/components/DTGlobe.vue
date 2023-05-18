@@ -18,7 +18,6 @@ import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
 import { addCakeMap } from "@/assets/utils/addCakeMap";
-import { addWhiteModel } from "@/assets/utils/addWhiteModel"
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
 export default {
@@ -40,8 +39,6 @@ export default {
         addChannal:addChannal,
         //添加县域行政区划驾驶舱的方法
         addCakeMap:addCakeMap,
-        //添加渲染杭州建筑白模的方法
-        addWhiteModel,addWhiteModel,
         //重置为初始宇宙视角的方法
         resetView(){
           DTGlobe.viewer.camera.flyTo({
@@ -55,7 +52,6 @@ export default {
                },
              })
         },
-        //将视角飞到德清上空的方法
         flyToCounty(){
           DTGlobe.viewer.camera.flyTo({
                destination: {x: -2785167.766521418, y: 4818273.782498095, z: 3224790.1169908945} ,
@@ -65,20 +61,6 @@ export default {
                 // 视角
                 pitch: -1.0765189351007636,
                 roll: 6.283185303822246,
-               },
-
-             })
-        },
-        //将视角飞到杭州上空的方法
-        flyToHangzhou(){
-          DTGlobe.viewer.camera.flyTo({
-               destination: {x: -2779258.860491051, y: 4781298.038492853, z: 3185358.8174155625} ,
-               orientation: {
-                // 指向
-                heading:0.07385727277787968,
-                // 视角
-                pitch: -0.6144556147562583,
-                roll: 6.282910602207032,
                },
 
              })
@@ -158,8 +140,6 @@ export default {
             this.addChannal(channel2,viewer,DTGlobe)
             //添加德清行政区划蛋糕图
             this.addCakeMap(viewer,DTGlobe)
-            //加载杭州城市建筑白模
-            this.addWhiteModel(viewer,DTGlobe)
         },
     },
     mounted(){
@@ -173,10 +153,6 @@ export default {
         bus.$on('flyToCounty', (e) => {
           this.flyToCounty()
         })
-        bus.$on('flyToHangzhou', (e) => {
-          this.flyToHangzhou()
-        })
-        
     }
 
 }

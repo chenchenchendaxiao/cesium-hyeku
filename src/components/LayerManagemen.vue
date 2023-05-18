@@ -32,8 +32,6 @@ export default {
                 bus.$emit('resetView',true)
               }else if(this.currentIndex == 1){
                 //科技城市
-                bus.$emit('flyToHangzhou',true)
-                DTGlobe.whiteModel.show=true
               }else{
                 //行政县域
                 bus.$emit('flyToCounty',true)
@@ -52,7 +50,6 @@ export default {
             DTGlobe.CakeMapEntity.forEach(entity=>{
                   entity.show=false
                 })
-            DTGlobe.whiteModel.show=false
         },
         controlUniverse(state){
             bus.$emit('inUniverse', state);
