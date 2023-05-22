@@ -19,6 +19,7 @@ import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
 import { addCakeMap } from "@/assets/utils/addCakeMap";
 import { addWhiteModel } from "@/assets/utils/addWhiteModel"
+// import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
 export default {
@@ -88,8 +89,10 @@ export default {
             //设置token
             Cesium.Ion.defaultAccessToken =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1MmIxYWJmNy0yZDA1LTRiYmQtYmI3Ny1iMGIwNTk5NWQyMWYiLCJpZCI6Mjk5MjQsImlhdCI6MTU5OTIwMDkxOX0.aUw9ehdKoobH0GEq5lp3s3Uk9_QSMZVvFFrsLsAACqc'
+            // let [tiandiVecModel, tiandiImgModel] = getProviderViewModels();
             //viewer初始化
             const viewer = new Cesium.Viewer('cesiumContainer',{
+                // imageryProviderViewModels:[tiandiVecModel, tiandiImgModel] ,
                 geocoder: false,
                 homeButton: false,
                 sceneModePicker: false,
@@ -130,17 +133,34 @@ export default {
                 console.log(viewer.camera.position,viewer.camera.heading,viewer.camera.pitch,viewer.camera.roll)
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
-            let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
-              url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-              proxy: new Cesium.DefaultProxy('/proxy/')
-            });
-            let lightEsriLayer = viewer.imageryLayers.addImageryProvider(lightEsri);
-            lightEsriLayer.hue=1.6
-            lightEsriLayer.contrast=1.6
-            lightEsriLayer.hue=0
-            lightEsriLayer.saturation=0.66
+            // let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
+            //   url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+            //   proxy: new Cesium.DefaultProxy('/proxy/')
+            // });
+            // let lightEsriLayer = viewer.imageryLayers.addImageryProvider(lightEsri);
+            // lightEsriLayer.hue=1.6
+            // lightEsriLayer.contrast=1.6
+            // lightEsriLayer.hue=0
+            // lightEsriLayer.saturation=0.66
+            let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
+             url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
+             subdomains:['0','1','2','3','4','5','6','7'],
+             layer: "tdtAnnoLayer",
+             style: "default",
+             format: "image/jpeg",
+              tileMatrixSetID: "GoogleMapsCompatible",
+            }));
+            darklayer.hue=3
+            darklayer.contrast=-1.2
+            // let marklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
+            //  url: "http://t{s}.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
+            //  subdomains:['0','1','2','3','4','5','6','7'],
+            //  layer: "tdtAnnoLayer",
+            //  style: "default",
+            //  format: "image/jpeg",
+            //   tileMatrixSetID: "GoogleMapsCompatible",
+            // }));
             // 初始化定位
-            // this.resetView()
             this.resetView()
             //添加城市人口柱状图
             this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
