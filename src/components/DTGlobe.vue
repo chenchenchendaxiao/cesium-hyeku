@@ -152,14 +152,21 @@ export default {
             }));
             darklayer.hue=3
             darklayer.contrast=-1.2
-            // let marklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
-            //  url: "http://t{s}.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
-            //  subdomains:['0','1','2','3','4','5','6','7'],
-            //  layer: "tdtAnnoLayer",
-            //  style: "default",
-            //  format: "image/jpeg",
-            //   tileMatrixSetID: "GoogleMapsCompatible",
-            // }));
+            //关闭太阳光和环境光
+            viewer.scene.sun.show = false;
+            console.log(viewer.scene,'scene')
+            console.log(Cesium.DirectionalLight,'pointlight')
+            const scene=viewer.scene
+            var position1 = new Cesium.Cartesian3.fromDegrees(120.152274,30.244921, 500);
+            var targetPosition1 = new Cesium.Cartesian3.fromDegrees(120.170456,30.263015, 630);
+            var dirLightOptions1 = {
+              targetPosition: targetPosition1,
+              color: new Cesium.Color(1, 0, 0, 1),//红色
+              intensity: 2
+            };
+            // directionalLight_1 && scene.removeLightSource(directionalLight_1)
+            let directionalLight_1 = new Cesium.DirectionalLight(position1, dirLightOptions1);
+            // viewer.scene.lightSource.ambientLightColor = new Cesium.Color(0, 0, 0, 1);
             // 初始化定位
             this.resetView()
             //添加城市人口柱状图
