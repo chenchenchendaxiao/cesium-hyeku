@@ -5,4 +5,17 @@ module.exports = defineConfig({
     port: 80,
     open: true, //项目启动时自动打开浏览器
   },
+  configureWebpack:{
+    module: {
+      rules: [{
+        test: /\.(frag|vert|glsl)$/,
+        use: [
+          { 
+            loader: 'glsl-shader-loader',
+            options: {}  
+          }
+        ]
+      }]
+    }
+  }
 })

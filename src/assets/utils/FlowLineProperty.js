@@ -43,7 +43,6 @@ PolylineTrailLinkMaterialProperty.prototype.equals = function(other) {
 // 在Material上挂载相关的流动线纹理 可以根据自己的需要进行封装
 Cesium.Material.PolylineTrailLinkType = 'PolylineTrailLink';
 // const image = require('@/assets/imgs/water.png');
-console.log('输出测试')
 Cesium.Material.PolylineTrailLinkImage = require('@/assets/imgs/changjiangwater.png');
 // Cesium.Material.PolylineTrailLinkImage = require('@/assets/imgs/water.png');
 // 定义着色器源码 核心部分

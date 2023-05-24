@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "cesium": "^1.105.0",
+    "glsl-shader-loader": "^0.1.6",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"

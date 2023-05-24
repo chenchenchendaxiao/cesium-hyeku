@@ -19,6 +19,7 @@ import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
 import { addCakeMap } from "@/assets/utils/addCakeMap";
 import { addWhiteModel } from "@/assets/utils/addWhiteModel"
+import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
@@ -43,6 +44,8 @@ export default {
         addCakeMap:addCakeMap,
         //添加渲染杭州建筑白模的方法
         addWhiteModel,addWhiteModel,
+        //添加跳舞的泛光四棱锥的方法
+        addDanceGeometry:addDanceGeometry,
         //重置为初始宇宙视角的方法
         resetView(){
           DTGlobe.viewer.camera.flyTo({
@@ -133,15 +136,6 @@ export default {
                 console.log(viewer.camera.position,viewer.camera.heading,viewer.camera.pitch,viewer.camera.roll)
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
-            // let lightEsri = new Cesium.ArcGisMapServerImageryProvider({
-            //   url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-            //   proxy: new Cesium.DefaultProxy('/proxy/')
-            // });
-            // let lightEsriLayer = viewer.imageryLayers.addImageryProvider(lightEsri);
-            // lightEsriLayer.hue=1.6
-            // lightEsriLayer.contrast=1.6
-            // lightEsriLayer.hue=0
-            // lightEsriLayer.saturation=0.66
             let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
              url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
              subdomains:['0','1','2','3','4','5','6','7'],
@@ -152,21 +146,6 @@ export default {
             }));
             darklayer.hue=3
             darklayer.contrast=-1.2
-            //关闭太阳光和环境光
-            viewer.scene.sun.show = false;
-            console.log(viewer.scene,'scene')
-            console.log(Cesium.DirectionalLight,'pointlight')
-            const scene=viewer.scene
-            var position1 = new Cesium.Cartesian3.fromDegrees(120.152274,30.244921, 500);
-            var targetPosition1 = new Cesium.Cartesian3.fromDegrees(120.170456,30.263015, 630);
-            var dirLightOptions1 = {
-              targetPosition: targetPosition1,
-              color: new Cesium.Color(1, 0, 0, 1),//红色
-              intensity: 2
-            };
-            // directionalLight_1 && scene.removeLightSource(directionalLight_1)
-            let directionalLight_1 = new Cesium.DirectionalLight(position1, dirLightOptions1);
-            // viewer.scene.lightSource.ambientLightColor = new Cesium.Color(0, 0, 0, 1);
             // 初始化定位
             this.resetView()
             //添加城市人口柱状图
@@ -187,6 +166,9 @@ export default {
             this.addCakeMap(viewer,DTGlobe)
             //加载杭州城市建筑白模
             this.addWhiteModel(viewer,DTGlobe)
+            // 添加跳舞的泛光四棱锥的方法
+            this.addDanceGeometry(viewer,DTGlobe)
+            
         },
     },
     mounted(){
