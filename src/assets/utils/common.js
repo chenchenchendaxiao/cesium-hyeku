@@ -6,6 +6,7 @@ let DTGlobe = {
     RiverEntity:[],//河流流动线
     ChannelEntity:[],//航道流动线
     CakeMapEntity:[],//蛋糕图行政区划实体集合
+    equipmentPoints:[],//行政区设备点位
     whiteModel:'',//白模图层
     equipmentLayers: [],
     handle: '1', 

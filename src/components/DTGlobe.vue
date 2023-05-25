@@ -17,7 +17,7 @@ import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
-import { addCakeMap } from "@/assets/utils/addCakeMap";
+import { addCakeMap, addEquipment, addEventListener } from "@/assets/utils/addCakeMap";
 import { addWhiteModel } from "@/assets/utils/addWhiteModel"
 import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
@@ -42,6 +42,8 @@ export default {
         addChannal:addChannal,
         //添加县域行政区划驾驶舱的方法
         addCakeMap:addCakeMap,
+        addEquipment:addEquipment,
+        addEventListener: addEventListener,
         //添加渲染杭州建筑白模的方法
         addWhiteModel,addWhiteModel,
         //添加跳舞的泛光四棱锥的方法
@@ -132,8 +134,15 @@ export default {
             //添加地球点击事件
             let Entityhandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
             Entityhandler.setInputAction(function (movement) {
-                // console.log(movement, 'move')
-                console.log(viewer.camera.position,viewer.camera.heading,viewer.camera.pitch,viewer.camera.roll)
+              var ray = viewer.camera.getPickRay(movement.position)
+              var cartesian = viewer.scene.globe.pick(ray, viewer.scene)
+              if (!cartesian) return
+              var cartographic = Cesium.Cartographic.fromCartesian(cartesian)
+              var lon = Cesium.Math.toDegrees(cartographic.longitude)
+              var lat = Cesium.Math.toDegrees(cartographic.latitude)
+              console.log('经纬度: ', lon+', '+lat,
+              '\n视角: \ndestination: ' + JSON.stringify(viewer.camera.position) + ',', 
+              '\norientation: ' + JSON.stringify({heading: viewer.camera.heading, pitch: viewer.camera.pitch, roll: viewer.camera.roll }) + ',')
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
             let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
@@ -162,8 +171,10 @@ export default {
             this.addChannal(channel1,viewer,DTGlobe)
             //添加航道2
             this.addChannal(channel2,viewer,DTGlobe)
-            //添加德清行政区划蛋糕图
+            //添加德清行政区划蛋糕图、设备点位
             this.addCakeMap(viewer,DTGlobe)
+            this.addEquipment(viewer,DTGlobe)
+            this.addEventListener(viewer,DTGlobe)
             //加载杭州城市建筑白模
             this.addWhiteModel(viewer,DTGlobe)
             // 添加跳舞的泛光四棱锥的方法

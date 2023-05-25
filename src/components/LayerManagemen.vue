@@ -50,8 +50,11 @@ export default {
             this.controlUniverse(false)
             bus.$emit('inUniverse', false);
             DTGlobe.CakeMapEntity.forEach(entity=>{
-                  entity.show=false
-                })
+              entity.show=false
+            })
+            DTGlobe.equipmentPoints.forEach(entity=>{
+              entity.show=false
+            })
             DTGlobe.whiteModel.show=false
         },
         controlUniverse(state){

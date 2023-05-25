@@ -1,3 +1,4 @@
+import DynamicWallMaterialProperty from './FlowVerticle'
 export const  addCakeMap = (viewer,DTGlobe)=>{
     //读取geojson格式的县域边界数据
     let countyDataPromise = Cesium.GeoJsonDataSource.load('static/county.geojson',{
@@ -201,4 +202,95 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
           DTGlobe.CakeMapEntity.push(entity)
         }
       })
+    /* 走马灯围墙 */
+    let townBoundaryWallPromise = Cesium.GeoJsonDataSource.load('static/townBoundary.geojson',{
+    });
+    townBoundaryWallPromise.then(function(dataSource){
+        let entities = dataSource.entities.values;
+        for(var i = 0;i<entities.length;i++){
+            let entity = entities[i]
+            let polylinePos3500=[]
+            entity._polygon.hierarchy._value.positions.forEach(position => {
+                let carto = Cesium.Cartographic.fromCartesian(position)
+                carto.height = 3500;
+                let CartesianPos = Cesium.Cartographic.toCartesian(carto)
+                polylinePos3500.push(CartesianPos)
+            });
+            DTGlobe.CakeMapEntity.push(
+                viewer.entities.add({
+                    show:false,
+                    wall: {
+                    positions: polylinePos3500,
+                    minimumHeights: new Array(polylinePos3500.length).fill(1000),
+                    material:  new Cesium.DynamicWallMaterialProperty({
+                        viewer: viewer,
+                        color: Cesium.Color.AQUA.withAlpha(0.8),
+                        duration: 1500,
+                    }),
+                    // material:  new Cesium.ImageMaterialProperty({
+                    //     image: require('../imgs/渐变wall.png'),
+                    //     transparent: true,
+                    // }),
+                    }
+                })
+            )
+        }
+    })
+}
+let equimentPoints = [
+    [119.8607584163678, 30.59698361054653],
+    [119.85736575203006, 30.530040294960834],
+    [119.94622798625453, 30.56626482750708],
+    [119.95635496055459, 30.512235931867973],
+    [120.04460018108972, 30.520827533448212],
+    [120.01544629299613, 30.557212482196835],
+    [120.06117520241834, 30.607122847052256],
+    [120.09413336250175, 30.5650974118212],
+    [120.12615178332291, 30.628981150196925],
+    [120.15624565164542, 30.582520313273793],
+    [120.14399925632245, 30.531664034229028],
+    [120.24389483538701, 30.546336933036248],
+    [120.19675417554687, 30.587987834076305],
+    [120.23511074535551, 30.62606328111981],
+    [120.27643579981614, 30.604739338150885],
+]
+export const addEquipment = (viewer, DTGlobe) => {
+    equimentPoints.forEach(item => {
+        DTGlobe.equipmentPoints.push(viewer.entities.add({
+            show: false,
+            position: Cesium.Cartesian3.fromDegrees(item[0], item[1]),
+            billboard: {
+                image: require('../imgs/marker.png'),
+                disableDepthTestDistance: Number.POSITIVE_INFINITY, // 关闭深度测试
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                scale: 0.5,
+            },
+        }))
+    })
+}
+let near = false
+export const addEventListener = (viewer, DTGlobe) => {
+    viewer.camera.changed.addEventListener(()=>{
+    // 当前高度
+    let height = viewer.camera.positionCartographic.height;
+    // 下面可以写其他的代码了
+    if (height <= 10000 && near == false) {
+        DTGlobe.CakeMapEntity.forEach(entity => {
+        entity.show = false
+        })
+        DTGlobe.equipmentPoints.forEach(entity=>{
+        entity.show=true
+        })
+        // shebeipoint.show
+        near = !near
+    } else if (height > 10000 && near == true) {
+        DTGlobe.CakeMapEntity.forEach(entity => {
+        entity.show = true
+        })
+        DTGlobe.equipmentPoints.forEach(entity=>{
+        entity.show=false
+        })
+        near = !near
+    }
+    })
 }
