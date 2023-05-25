@@ -17,6 +17,7 @@
 
 <script>
 import { DTGlobe } from '@/assets/utils/common'
+import { removeEventListener } from '@/assets/utils/addCakeMap'
 import bus from '@/assets/utils/bus'
 export default {
     methods:{
@@ -55,6 +56,8 @@ export default {
             DTGlobe.equipmentPoints.forEach(entity=>{
               entity.show=false
             })
+            // 移除地图高度监听事件
+            removeEventListener(DTGlobe.viewer)
             DTGlobe.whiteModel.show=false
         },
         controlUniverse(state){

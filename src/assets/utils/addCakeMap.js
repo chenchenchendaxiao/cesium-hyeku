@@ -27,6 +27,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                     positions: polylinePos1000,
                     width: 3,
                     material: new Cesium.Color.fromBytes(77,166,255),
+                    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
                   },
                 })
             )
@@ -45,6 +46,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                     positions: polylinePos2000,
                     width: 3,
                     material: new Cesium.Color(0.22352,0.8745,0.90588,1),
+                    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
                   },
                 })
             )
@@ -63,6 +65,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                     positions: polylinePos3500,
                     width: 3,
                     material: new Cesium.Color(0.17647,0.45882,0.772549,1),
+                    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
                   },
                 })
             )
@@ -97,13 +100,15 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                             // transparent:0.8
                         }),
                         outline:false,
-                    },
+                        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
+                },
                     polyline:{
                         width:2,
                         positions:polylinePos3500,
                         material:new Cesium.Color(0,0.345,0.581,0.2),
                        // material: Cesium.Color.RED
-                    }
+                        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
+                }
                 })
             )
         }
@@ -129,7 +134,8 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                         positions:polylinePos1500,
                         material:new Cesium.Color(0.3098,0.70196,1,0.05 ),
                        // material: Cesium.Color.RED
-                    }
+                        // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
+                }
                 }
             )
             )
@@ -163,6 +169,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                         color: new Cesium.Color.fromBytes(30, 199, 255, 254)
                     }),
                     outline:false,
+                    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
                 }
             })  
             )
@@ -182,7 +189,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
           entity.polygon.material = new Cesium.Color.fromBytes(38, 219, 255);
           entity.polygon.height = 3620;
           entity.polygon.outline = false;
-          entity.polygon.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 8000000)
+          // entity.polygon.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 8000000)
           //处理一下坐标高度
           let polylinePos = []
           entity.polygon.hierarchy._value.positions.forEach(position => {
@@ -196,7 +203,7 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
             positions: polylinePos,
             width: 1,
             material: new Cesium.Color.fromBytes(23, 255, 240),
-
+            // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
           }
           entity.show = false;
           DTGlobe.CakeMapEntity.push(entity)
@@ -220,13 +227,14 @@ export const  addCakeMap = (viewer,DTGlobe)=>{
                 viewer.entities.add({
                     show:false,
                     wall: {
-                    positions: polylinePos3500,
-                    minimumHeights: new Array(polylinePos3500.length).fill(1000),
-                    material:  new Cesium.DynamicWallMaterialProperty({
-                        viewer: viewer,
-                        color: Cesium.Color.AQUA.withAlpha(0.8),
-                        duration: 1500,
-                    }),
+                        positions: polylinePos3500,
+                        minimumHeights: new Array(polylinePos3500.length).fill(1000),
+                        material:  new Cesium.DynamicWallMaterialProperty({
+                            viewer: viewer,
+                            color: Cesium.Color.AQUA.withAlpha(0.8),
+                            duration: 1500,
+                            // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 3000000),
+                        }),
                     // material:  new Cesium.ImageMaterialProperty({
                     //     image: require('../imgs/渐变wall.png'),
                     //     transparent: true,
@@ -264,13 +272,18 @@ export const addEquipment = (viewer, DTGlobe) => {
                 disableDepthTestDistance: Number.POSITIVE_INFINITY, // 关闭深度测试
                 verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
                 scale: 0.5,
+                // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
             },
         }))
     })
 }
+export const addCakemapHeightListener = (viewer, DTGlobe) => {
+    // TODO: 注销回调后，再次添加的的监听回调函数无效
+    viewer.camera.changed.addEventListener(switchCakeState(viewer, DTGlobe))
+    console.log('viewer.camera.changed', viewer.camera.changed)
+}
 let near = false
-export const addEventListener = (viewer, DTGlobe) => {
-    viewer.camera.changed.addEventListener(()=>{
+const switchCakeState = (viewer, DTGlobe)=>{
     // 当前高度
     let height = viewer.camera.positionCartographic.height;
     // 下面可以写其他的代码了
@@ -280,7 +293,7 @@ export const addEventListener = (viewer, DTGlobe) => {
         })
         DTGlobe.equipmentPoints.forEach(entity=>{
         entity.show=true
-        })
+    })
         // shebeipoint.show
         near = !near
     } else if (height > 10000 && near == true) {
@@ -292,5 +305,7 @@ export const addEventListener = (viewer, DTGlobe) => {
         })
         near = !near
     }
-    })
+}
+export const removeEventListener = (viewer) => {
+    viewer.camera.changed.removeEventListener(switchCakeState)
 }

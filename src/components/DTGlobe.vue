@@ -17,7 +17,7 @@ import{ addSatelliteOrbital } from '@/assets/utils/addSatelliteOrbital'
 import{ addRiver } from '@/assets/utils/addRiver'
 import { addFlyLines } from "@/assets/utils/addFlyLines";
 import { addChannal } from "@/assets/utils/addChannel"
-import { addCakeMap, addEquipment, addEventListener } from "@/assets/utils/addCakeMap";
+import { addCakeMap, addEquipment, addCakemapHeightListener } from "@/assets/utils/addCakeMap";
 import { addWhiteModel } from "@/assets/utils/addWhiteModel"
 import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
@@ -43,7 +43,7 @@ export default {
         //添加县域行政区划驾驶舱的方法
         addCakeMap:addCakeMap,
         addEquipment:addEquipment,
-        addEventListener: addEventListener,
+        addCakemapHeightListener: addCakemapHeightListener,
         //添加渲染杭州建筑白模的方法
         addWhiteModel,addWhiteModel,
         //添加跳舞的泛光四棱锥的方法
@@ -174,7 +174,6 @@ export default {
             //添加德清行政区划蛋糕图、设备点位
             this.addCakeMap(viewer,DTGlobe)
             this.addEquipment(viewer,DTGlobe)
-            this.addEventListener(viewer,DTGlobe)
             //加载杭州城市建筑白模
             this.addWhiteModel(viewer,DTGlobe)
             // 添加跳舞的泛光四棱锥的方法
@@ -191,6 +190,7 @@ export default {
           this.resetView()
         })
         bus.$on('flyToCounty', (e) => {
+          this.addCakemapHeightListener(DTGlobe.viewer,DTGlobe)
           this.flyToCounty()
         })
         bus.$on('flyToHangzhou', (e) => {
