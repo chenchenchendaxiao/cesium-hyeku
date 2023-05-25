@@ -3,6 +3,8 @@ import pyramidVert from '@/assets/glsl/pyramid.vert.glsl'
 export default class PyramidPrimitive {
     constructor(){
         this.drawCommand = null
+        this._texture = null
+        this._image = null
     }
     //生成一个四棱锥geometry
     createPyramidGeometry(){
@@ -10,7 +12,17 @@ export default class PyramidPrimitive {
         let positions = []
         //顶点索引 用于定义如何连接这些点
         let indices = []
-        let st = []
+        let st = [
+            0.5,0.5,
+            0.0,1.0,
+            1.0,1.0,
+            0.0,0.0,
+            1.0,0.0
+        ]
+        // let st = new Float32Array([
+        //     0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+        //     0.0, 1.0, 0.5, 0.5,
+        // ])
         //四棱锥底部的高度
         let groundHeight = 10
         // 四棱锥顶部的高度
@@ -53,6 +65,11 @@ export default class PyramidPrimitive {
                     componentDatatype: Cesium.ComponentDatatype.FLOAT,
                     componentsPerAttribute: 3,
                     values: new Float32Array(positions)
+                }),
+                st: new Cesium.GeometryAttribute({
+                    componentDatatype: Cesium.ComponentDatatype.FLOAT,
+                    componentsPerAttribute: 2,
+                    values: new Float32Array(st)
                 })
             },
             indices: indices,
@@ -60,6 +77,23 @@ export default class PyramidPrimitive {
         })
         return geometry
     }
+    //创建纹理的命令
+    createTexture(context){
+        if(this._image == null){
+            this._image = new Image()
+            this._image.src = `./static/Dog.jpeg`
+            let that = this
+            this._image.onload = function(img){
+            console.log(this._image)
+            let vTexture = new Cesium.Texture({
+                context: context,
+                source: that._image
+            });
+            that._texture = vTexture
+        }
+        }
+    }
+
     //创建绘制命令
     createDrawCommand(context) {
 
@@ -84,6 +118,15 @@ export default class PyramidPrimitive {
             },
             v2:()=>{
                 return this.v2;
+            },
+            wenli: ()=>{
+                //由于图片的加载是一个异步的过程，所以可能还没加载到图片，this._texture还是一个null
+                //的时候就已经在运行着色器了 这时候会报错 所以要先判断是否已经定义完成 没有的话返回一个默认的纹理
+                if(Cesium.defined(this._texture)){
+                    return this._texture;
+                } else {
+                    return context.defaultTexture;
+                }
             }
         }
 
@@ -106,6 +149,9 @@ export default class PyramidPrimitive {
         //在每一帧更新时检查是否存在新定义的这个drawCommand（绘制命令）,假如不存在就新建一个并加入到命令队列中
         if(this.drawCommand === null){
             this.createDrawCommand(frameState.context)
+        }
+        if(this._texture === null){
+            this.createTexture(frameState.context)
         }
         frameState.commandList.push(this.drawCommand)
     }

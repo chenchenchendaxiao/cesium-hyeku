@@ -2,6 +2,8 @@ attribute vec3 position3DHigh;
 attribute vec3 position3DLow;
 attribute float batchId;
 attribute vec3 position;
+attribute vec2 st;
+varying vec2 v_st;
 uniform vec3 v1;
 uniform vec3 v2;
 //罗德里格旋转公式是计算三维空间中，一个向量绕旋转轴旋转给定角度以后得到的新向量的计算公式
@@ -60,6 +62,8 @@ mat4 RodriguesRotation(vec3 v1, vec3 v2, float theta){
         }
 
 void main(){
+    //把从attribute中拿到的st传给v_st,再由v_st传给片原着色器
+    v_st=st;
     float theta = czm_frameNumber*0.03;
     float ty = abs(cos(czm_frameNumber /30.0))*0.2;
     mat4 translateY = mat4(1,0,0,0,0,1,0,ty,0,0,1,0,0,0,0,1);
