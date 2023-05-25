@@ -36,7 +36,8 @@ export default class PyramidPrimitive {
          ...transformPos(point4, topHeight))
         console.log(positions,'pos')
         // this.leftTopPos = new Cesium.Cartesian3(...transformPos(point1,topHeight));
-
+        this.v1= new Cesium.Cartesian3(...transformPos(center,groundHeight))
+        this.v2= new Cesium.Cartesian3(...transformPos(center,topHeight))
         indices = [ 
             0,1,2,
             0,1,3,
@@ -77,7 +78,14 @@ export default class PyramidPrimitive {
             attributeLocations: Cesium.GeometryPipeline.createAttributeLocations(geometry),
         })
         
-        let uniformMap = {}
+        let uniformMap = {
+            v1: ()=>{
+                return this.v1;
+            },
+            v2:()=>{
+                return this.v2;
+            }
+        }
 
         let renderState = Cesium.RenderState.fromCache({
             depthTest:{
