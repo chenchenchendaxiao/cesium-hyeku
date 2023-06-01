@@ -10,6 +10,7 @@
 import { cities } from '@/assets/data/cities'
 import { river,yellowRiver } from '@/assets/data/river'
 import { channel1, channel2 } from '@/assets/data/channel'
+import qiantang from '/public/static/qiantangRiver.json'
 import { DTGlobe } from '@/assets/utils/common'
 //方法
 import { addCitiesPopulationColumn } from '@/assets/utils/addColumn'
@@ -20,16 +21,20 @@ import { addChannal } from "@/assets/utils/addChannel"
 import { addCakeMap, addEquipment, addCakemapHeightListener } from "@/assets/utils/addCakeMap";
 import { addWhiteModel } from "@/assets/utils/addWhiteModel"
 import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
+import { addCircle } from "@/assets/utils/addCircle";
+import { addQiantangRiver } from "@/assets/utils/addQiantangRiver"
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
 export default {
     data(){
       return {
-        inUniverse:false
+        inUniverse:false,
+        riverJson:{}
       }
     },
     methods:{
+      //宇宙场景🌞
         //加载城市之间的飞线
         addFlyLines:addFlyLines,
         //加载城市人口柱状示意线
@@ -40,14 +45,20 @@ export default {
         addRiver:addRiver,
         //添加航道的方法
         addChannal:addChannal,
+      //县域行政场景
         //添加县域行政区划驾驶舱的方法
         addCakeMap:addCakeMap,
         addEquipment:addEquipment,
         addCakemapHeightListener: addCakemapHeightListener,
+      //智慧城市🌆
         //添加渲染杭州建筑白模的方法
         addWhiteModel,addWhiteModel,
         //添加跳舞的泛光四棱锥的方法
         addDanceGeometry:addDanceGeometry,
+        //添加渐变扩散圆的方法
+        addCircle:addCircle,
+        //添加钱塘江水面的方法
+        addQiantangRiver:addQiantangRiver,
         //重置为初始宇宙视角的方法
         resetView(){
           DTGlobe.viewer.camera.flyTo({
@@ -178,10 +189,14 @@ export default {
             this.addWhiteModel(viewer,DTGlobe)
             // 添加跳舞的泛光四棱锥的方法
             this.addDanceGeometry(viewer,DTGlobe)
-            
+            //添加建国北路地铁口的扩散渐变圆形⭕️
+            this.addCircle([120.187339,30.27027,5],'#6495ED',viewer,DTGlobe,Cesium)
+            //添加钱塘江
+            this.addQiantangRiver(viewer,DTGlobe,this.riverJson)
         },
     },
     mounted(){
+        this.riverJson = qiantang
         this.initCesium()
         bus.$on('inUniverse', (e) => {
           this.inUniverse=e

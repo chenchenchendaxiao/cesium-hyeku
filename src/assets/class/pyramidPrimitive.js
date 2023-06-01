@@ -111,7 +111,7 @@ export default class PyramidPrimitive {
             fragmentShaderSource: pyramidFrag,
             attributeLocations: Cesium.GeometryPipeline.createAttributeLocations(geometry),
         })
-        
+        let iResolution = new Cesium.Cartesian2(context.canvas.width,context.canvas.height)
         let uniformMap = {
             v1: ()=>{
                 return this.v1;
@@ -127,6 +127,10 @@ export default class PyramidPrimitive {
                 } else {
                     return context.defaultTexture;
                 }
+            },
+            //容器大小
+            iResolution:()=>{
+                return iResolution;
             }
         }
 
