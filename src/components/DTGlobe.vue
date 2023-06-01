@@ -23,6 +23,7 @@ import { addWhiteModel } from "@/assets/utils/addWhiteModel"
 import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
 import { addCircle } from "@/assets/utils/addCircle";
 import { addQiantangRiver } from "@/assets/utils/addQiantangRiver"
+import { addTrailBall } from "@/assets/utils/addTrailBall"
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
@@ -59,6 +60,9 @@ export default {
         addCircle:addCircle,
         //添加钱塘江水面的方法
         addQiantangRiver:addQiantangRiver,
+        //添加轨道球⚽️的方法
+        addTrailBall:addTrailBall,
+      //其他方法
         //重置为初始宇宙视角的方法
         resetView(){
           DTGlobe.viewer.camera.flyTo({
@@ -140,6 +144,7 @@ export default {
             // 隐藏月亮
             viewer.scene.moon.show=false;
             //把初始化的viewer的的指针存到全局的对象里面方便调用
+            viewer.scene.globe.depthTestAgainstTerrain = true
             DTGlobe.viewer=viewer
             viewer._cesiumWidget._creditContainer.style.display = "none"//取消版权信息
             //添加地球点击事件
@@ -193,6 +198,8 @@ export default {
             this.addCircle([120.187339,30.27027,5],'#6495ED',viewer,DTGlobe,Cesium)
             //添加钱塘江
             this.addQiantangRiver(viewer,DTGlobe,this.riverJson)
+            //添加东新园的轨道球
+            this.addTrailBall(viewer,DTGlobe)
         },
     },
     mounted(){

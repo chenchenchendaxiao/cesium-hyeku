@@ -1,7 +1,7 @@
 
 export  const addQiantangRiver = (viewer,DTGlobe,geojson)=>{
 // alert('add')
-console.log(geojson,'geojson')
+// console.log(geojson,'geojson')
 for (var i = 0; i < geojson.features.length; i++) {
     var ifeature = geojson.features[i];
     let coordinates = [];
@@ -11,7 +11,7 @@ for (var i = 0; i < geojson.features.length; i++) {
         coordinates.push(lnglat[1]);
         coordinates.push(10);
     });
-    console.log(coordinates,'coordinates')
+    // console.log(coordinates,'coordinates')
     // let positions2 = Cesium.Cartesian3.fromDegreesArray(coordinates);
     // console.log(positions2,'position2')
        // 流动水面效果
@@ -22,7 +22,7 @@ for (var i = 0; i < geojson.features.length; i++) {
             geometry : new Cesium.PolygonGeometry({
                 polygonHierarchy : new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(coordinates)),//waterFace是一个组成多边形顶点数组[lon,lat,alt]
                 //extrudedHeight: 0,//注释掉此属性可以只显示水面
-                perPositionHeight : false//注释掉此属性水面就贴地了
+                perPositionHeight : true//注释掉此属性水面就贴地了
                 })
                 }),
         appearance: new Cesium.EllipsoidSurfaceAppearance({
