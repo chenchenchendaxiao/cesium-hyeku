@@ -24,6 +24,8 @@ import { addDanceGeometry } from "@/assets/utils/addDanceGeometry";
 import { addCircle } from "@/assets/utils/addCircle";
 import { addQiantangRiver } from "@/assets/utils/addQiantangRiver"
 import { addTrailBall } from "@/assets/utils/addTrailBall"
+import { addImageRadar } from "@/assets/utils/addImageRadar"
+import { addVerticalFlyLine } from "@/assets/utils/addVerticalFlyLine"
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
@@ -62,6 +64,10 @@ export default {
         addQiantangRiver:addQiantangRiver,
         //添加轨道球⚽️的方法
         addTrailBall:addTrailBall,
+        //添加用图片旋转材质的方法旋转雷达
+        addImageRadar:addImageRadar,
+        //添加随机垂直飞线的方法
+        addVerticalFlyLine:addVerticalFlyLine,
       //其他方法
         //重置为初始宇宙视角的方法
         resetView(){
@@ -196,10 +202,14 @@ export default {
             this.addDanceGeometry(viewer,DTGlobe)
             //添加建国北路地铁口的扩散渐变圆形⭕️
             this.addCircle([120.187339,30.27027,5],'#6495ED',viewer,DTGlobe,Cesium)
-            //添加钱塘江
+            //添加钱塘江动态水面
             this.addQiantangRiver(viewer,DTGlobe,this.riverJson)
             //添加东新园的轨道球
             this.addTrailBall(viewer,DTGlobe)
+            //添加三坝地铁口的扫描雷达
+            this.addImageRadar(viewer,DTGlobe)
+            //以城站为中心形成两百条垂直飞线
+            this.addVerticalFlyLine(viewer,DTGlobe)
         },
     },
     mounted(){
