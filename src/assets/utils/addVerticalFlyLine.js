@@ -2,7 +2,7 @@ import LineFlowMaterialProperty from '@/assets/class/LineFlowMaterialProperty'
 
 export const addVerticalFlyLine = (viewer,DTGlobe)=> {
     let positions = generateRandomPosition([120.19016,30.249861],200)
-    console.log(positions,'根据中心点随机生成的100个位置坐标')
+    // console.log(positions,'根据中心点随机生成的100个位置坐标')
     positions.forEach(item=>{
         let startPoint = new Cesium.Cartesian3.fromDegrees(item[0], item[1], 0);
         let endPoint = new Cesium.Cartesian3.fromDegrees(item[0], item[1], 5000*Math.random());

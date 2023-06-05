@@ -26,6 +26,7 @@ import { addQiantangRiver } from "@/assets/utils/addQiantangRiver"
 import { addTrailBall } from "@/assets/utils/addTrailBall"
 import { addImageRadar } from "@/assets/utils/addImageRadar"
 import { addVerticalFlyLine } from "@/assets/utils/addVerticalFlyLine"
+import { addCityWall } from "@/assets/utils/addCityWall"
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
@@ -68,6 +69,8 @@ export default {
         addImageRadar:addImageRadar,
         //添加随机垂直飞线的方法
         addVerticalFlyLine:addVerticalFlyLine,
+        //添加城市跑马灯围墙
+        addCityWall:addCityWall,
       //其他方法
         //重置为初始宇宙视角的方法
         resetView(){
@@ -210,6 +213,8 @@ export default {
             this.addImageRadar(viewer,DTGlobe)
             //以城站为中心形成两百条垂直飞线
             this.addVerticalFlyLine(viewer,DTGlobe)
+            //添加城市跑马灯围墙
+            this.addCityWall(viewer,DTGlobe)
         },
     },
     mounted(){
