@@ -62,7 +62,6 @@ export default {
             // 移除地图高度监听事件
             removeEventListener(DTGlobe.viewer)
             DTGlobe.whiteModel.show=false
-            document.getElementById('threemapDiv').style.display='none'
         },
         controlUniverse(state){
             bus.$emit('inUniverse', state);

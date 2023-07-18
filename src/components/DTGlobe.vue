@@ -239,7 +239,6 @@ export default {
           this.flyToHangzhou()
         })
         bus.$on('flyToChongqing', (e) => {
-          document.getElementById('threemapDiv').style.display='block'
         })
     }
 
