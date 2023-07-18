@@ -7,8 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^1.4.0",
+    "camera-controls": "^2.7.0",
     "cesium": "^1.105.0",
+    "d3-geo": "^3.1.0",
     "glsl-shader-loader": "^0.1.6",
+    "path-browserify": "^1.0.1",
+    "text2svg": "^1.0.1",
+    "three": "^0.153.0",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"

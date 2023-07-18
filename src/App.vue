@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-
+  <ThreeMap />
   <DTGlobe />
+
   <LayerManagemen />
   </div>
 </template>
 <script>
 import DTGlobe from '@/components/DTGlobe.vue'
 import LayerManagemen from '@/components/LayerManagemen.vue';
+import ThreeMap from '@/components/ThreeMap.vue'
 export default {
   components:{
     DTGlobe,
-    LayerManagemen
+    LayerManagemen,
+    ThreeMap
   },
   methods:{
 

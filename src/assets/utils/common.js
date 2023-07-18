@@ -12,7 +12,8 @@ let DTGlobe = {
     handle: '1', 
     fog: '', rain: '', snow: '', 
     lightEsriLayer: '', 
-    temporaryEntity: 0
+    temporaryEntity: 0,
+    mapshow:{}//threejs mapshow
     };
 const getViewer = () => {
     return DTGlobe.viewer;

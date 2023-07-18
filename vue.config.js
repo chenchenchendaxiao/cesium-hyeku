@@ -6,6 +6,12 @@ module.exports = defineConfig({
     open: true, //项目启动时自动打开浏览器
   },
   configureWebpack:{
+    resolve: {
+      fallback: { 
+        path: require.resolve("path-browserify") ,
+        fs:false
+      },
+    },
     module: {
       rules: [{
         test: /\.(frag|vert|glsl)$/,

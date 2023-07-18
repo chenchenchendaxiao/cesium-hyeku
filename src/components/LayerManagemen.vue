@@ -26,7 +26,7 @@ export default {
             this.hideAllEntity()
             if (index != this.currentIndex) {
               this.currentIndex = index
-              console.log(this.currentIndex)
+              console.log(this.currentIndex,' currentIndex')
               if(this.currentIndex==0){
                 //宇宙场景
                 this.controlUniverse(true)
@@ -35,12 +35,15 @@ export default {
                 //科技城市
                 bus.$emit('flyToHangzhou',true)
                 DTGlobe.whiteModel.show=true
-              }else{
+              }else if(this.currentIndex== 2){
                 //行政县域
                 bus.$emit('flyToCounty',true)
                 DTGlobe.CakeMapEntity.forEach(entity=>{
                   entity.show=true
                 })
+              }else if(this.currentIndex == 3){
+                //区位地图
+                bus.$emit('flyToChongqing',true)
               }
             } else {
               this.currentIndex = -1
@@ -59,6 +62,7 @@ export default {
             // 移除地图高度监听事件
             removeEventListener(DTGlobe.viewer)
             DTGlobe.whiteModel.show=false
+            document.getElementById('threemapDiv').style.display='none'
         },
         controlUniverse(state){
             bus.$emit('inUniverse', state);
@@ -99,7 +103,12 @@ export default {
           name: '行政县域',
           icon: require('@/assets/imgs/行政区划.png'),
           activeIcon: require('@/assets/imgs/行政区划-active.png'),
-        }
+        },
+        {
+          name: '区位地图',
+          icon: require('@/assets/imgs/区位地图.png'),
+          activeIcon: require('@/assets/imgs/区位地图-active.png'),
+        },
       ],
       currentIndex: -1,
       sceneCurrentIndex: -1,

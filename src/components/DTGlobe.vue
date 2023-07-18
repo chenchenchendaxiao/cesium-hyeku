@@ -27,6 +27,7 @@ import { addTrailBall } from "@/assets/utils/addTrailBall"
 import { addImageRadar } from "@/assets/utils/addImageRadar"
 import { addVerticalFlyLine } from "@/assets/utils/addVerticalFlyLine"
 import { addCityWall } from "@/assets/utils/addCityWall"
+import { addCircleWave } from "@/assets/utils/addCircleWave"
 // import { getProviderViewModels } from "@/assets/utils//provider.js";
 //bus实例用于通信
 import bus from '@/assets/utils/bus'
@@ -71,6 +72,8 @@ export default {
         addVerticalFlyLine:addVerticalFlyLine,
         //添加城市跑马灯围墙
         addCityWall:addCityWall,
+        //添加波浪圆的方法
+        addCircleWave:addCircleWave,
       //其他方法
         //重置为初始宇宙视角的方法
         resetView(){
@@ -215,6 +218,8 @@ export default {
             this.addVerticalFlyLine(viewer,DTGlobe)
             //添加城市跑马灯围墙
             this.addCityWall(viewer,DTGlobe)
+            //添加蓝色波浪圆
+            this.addCircleWave(viewer,DTGlobe)
         },
     },
     mounted(){
@@ -233,7 +238,9 @@ export default {
         bus.$on('flyToHangzhou', (e) => {
           this.flyToHangzhou()
         })
-        
+        bus.$on('flyToChongqing', (e) => {
+          document.getElementById('threemapDiv').style.display='block'
+        })
     }
 
 }
