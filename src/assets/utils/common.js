@@ -13,7 +13,7 @@ let DTGlobe = {
     fog: '', rain: '', snow: '', 
     lightEsriLayer: '', 
     temporaryEntity: 0,
-    mapshow:{}//threejs mapshow
+    scene:''
     };
 const getViewer = () => {
     return DTGlobe.viewer;

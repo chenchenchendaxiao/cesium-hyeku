@@ -13,7 +13,7 @@ let pos =[120.2026954658149, 30.27961560889794 ,10,
 120.2026954658149, 30.27961560889794 ,10,]
 export const addCityWall = (viewer,DTGlobe)=>{
     let positions2 = Cesium.Cartesian3.fromDegreesArrayHeights(pos);
-    console.log(positions2,'position2')
+    // console.log(positions2,'position2')
     viewer.entities.add({
         show:true,
         wall: {
