@@ -1,0 +1,98 @@
+<style>
+  body {
+      margin: 0;
+      background: black;
+  }
+</style>
+<div id="sketch"></div>
+<script src="https://unpkg.com/kokomi.js@1.9.78/build/kokomi.umd.js"></script>
+<script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+<script>
+  class Sketch extends kokomi.Base {
+      create() {
+          this.camera.position.set(0, 0, 5);
+          new kokomi.OrbitControls(this);
+
+          const geometry = new THREE.SphereGeometry(2, 64, 64);
+          // const geometry = new THREE.PlaneGeometry(4, 4);
+          const material = new THREE.ShaderMaterial({
+              vertexShader: /* glsl */ `
+uniform float iTime;
+uniform vec3 iResolution;
+uniform vec4 iMouse;
+varying vec3 vWorldPosition;//存储将来计算的顶点位置的
+varying vec2 vUv;
+varying vec3 vNormal;//先声明一个变量来存顶点法向量
+void main(){
+  vec3 p=position;
+  //顶点法向量normal 这个变量是存储在顶点着色器里面可以拿到
+  vNormal=normal;
+  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
+  vWorldPosition=vec3(modelMatrix*vec4(p,1));//计算顶点位置
+  vUv=uv;
+}
+`,
+              fragmentShader: /* glsl */ `
+            uniform float iTime;
+            uniform vec3 iResolution; 
+            uniform vec4 iMouse;
+            varying vec3 vNormal;//在片元着色器里面也声明这个变量 varying 这样就可以在片元着色器里面拿到顶点法向量了
+            varying vec3 vWorldPosition;//也声明设个顶点位置的变量 就可以拿到从顶点着色器计算的结果了
+
+            varying vec2 vUv;
+            //计算镜面反射光的四个步骤
+            // 获取反射光的方向向量。
+            // 获取眼睛的方向向量。
+            // 计算镜面高光因子。
+            // 计算镜面反射光。
+            void main(){
+                vec2 uv=vUv;
+            
+                vec3 col=vec3(0.);
+                vec3 objectColor=vec3(1.);
+                vec3 lightColor=vec3(.875,.286,.333);
+                vec3 lightPos=vec3(1.,2.,1.);
+                vec3 lightDir=normalize(lightPos-vWorldPosition);//计算光线的方向向量
+                //reflect可以使用光照指向片元和法向量计算出反射光的方向向量
+                vec3 reflectDir=reflect(-lightDir,vNormal);
+                //计算眼睛的方向向量
+                vec3 viewDir=normalize(cameraPosition-vWorldPosition);
+                //计算镜面反射因子  就是眼睛的方向向量和反射光的方向向量的点击 保证最小也有0
+                float spec=max(dot(viewDir,reflectDir),0.);
+                //引入一个反光度的概念，反光度越大，光线就聚焦得更厉害，这个一般由物体本身的属性决定
+                float shininess=32.;
+                spec=pow(spec,shininess);
+                vec3 specular=lightColor*spec;
+
+                float diff=max(dot(vNormal,lightDir),0.);//计算法向量与光线的方向向量的余弦值 就是漫反射因子 当余弦值小于0的时候就是角度大于90° 这时候取0 就是光照不到 
+
+                float ambIntensity=.6;//光照强度
+                vec3 ambient=lightColor*ambIntensity;//环境光等于灯光颜色X光照强度
+                vec3 diffuse=lightColor*diff;
+                
+
+                col+=ambient*objectColor;//反射出来的颜色就是物体颜色*环境光强度
+                col+=diffuse*objectColor; //漫反射银子乘上物体颜色等于漫反射的颜色 再加到颜色上去
+                col+=specular*objectColor;//镜面反射银子和物体颜色的点积
+                gl_FragColor=vec4(col,1.);
+            }
+
+`,
+          });
+          const mesh = new THREE.Mesh(geometry, material);
+          this.scene.add(mesh);
+
+          const uj = new kokomi.UniformInjector(this);
+          material.uniforms = {
+              ...material.uniforms,
+              ...uj.shadertoyUniforms,
+          };
+          this.update(() => {
+              uj.injectShadertoyUniforms(material.uniforms);
+          });
+      }
+  }
+
+  const sketch = new Sketch("#sketch");
+  sketch.create();
+</script>

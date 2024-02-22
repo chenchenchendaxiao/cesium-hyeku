@@ -173,18 +173,40 @@ export default {
               '\norientation: ' + JSON.stringify({heading: viewer.camera.heading, pitch: viewer.camera.pitch, roll: viewer.camera.roll }) + ',')
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
-            let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
-             url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
-             subdomains:['0','1','2','3','4','5','6','7'],
-             layer: "tdtAnnoLayer",
-             style: "default",
-             format: "image/jpeg",
-              tileMatrixSetID: "GoogleMapsCompatible",
-            }));
-            darklayer.hue=3
-            darklayer.contrast=-1.2
+            // let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
+            //  url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
+            //  subdomains:['0','1','2','3','4','5','6','7'],
+            //  layer: "tdtAnnoLayer",
+            //  style: "default",
+            //  format: "image/jpeg",
+            //   tileMatrixSetID: "GoogleMapsCompatible",
+            // }));
+            // darklayer.hue=3
+            // darklayer.contrast=-1.2
+            const entity =  viewer.entities.add({
+            name: 'testCake',
+            position: Cesium.Cartesian3.fromDegrees(120.7012, 30.5678, 10),
+            orientation: Cesium.Transforms.headingPitchRollQuaternion(
+              Cesium.Cartesian3.fromDegrees(120.7012, 30.5678, 10),
+              new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(193), 0, 0)
+            ),
+            model: { 
+              uri: 'static/长水塘地图5.glb',//注意entitits.add方式加载gltf文件时，这里是uri，不是url，并且这种方式只能加载.glb格式的文件
+              scale:7000.0,//缩放比例
+              // minimumPixelSize:7000,//最小像素大小，可以避免太小看不见
+              //   maximumScale: 20000,//模型的最大比例尺大小。minimumPixelSize的上限  
+              incrementallyLoadTextures: true,//加载模型后纹理是否可以继续流入
+              runAnimations: true,//是否启动模型中制定的gltf动画
+              clampAnimations: true,//制定gltf动画是否在没有关键帧的持续时间内保持最后一个姿势
+              shadows: Cesium.ShadowMode.ENABLED,
+              heightReference: Cesium.HeightReference.NONE
+            }
+          }) 
+          viewer.clock.shouldAnimate = false;//时间轴动画停止
+          viewer.clock.currentTime = Cesium.JulianDate.fromIso8601("2023-09-01T06:00:00Z");
+          viewer.flyTo(entity)
             // 初始化定位
-            this.resetView()
+            // this.resetView()
             //添加城市人口柱状图
             this.addCitiesPopulationColumn(cities,viewer,DTGlobe)
             //添加卫星和轨道

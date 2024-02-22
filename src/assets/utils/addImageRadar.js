@@ -19,6 +19,7 @@ export const addImageRadar = (viewer,DTGlobe)=>{
         }
     })
     rotateMaterial(rader.ellipse, 0, -3);
+    
 }
 const rotateMaterial=(instance, _stRotation, _amount) =>{
     instance.stRotation = new Cesium.CallbackProperty(function() {

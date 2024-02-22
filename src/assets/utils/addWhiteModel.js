@@ -1,6 +1,6 @@
 export const addWhiteModel = (viewer,DTGlobe)=>{
     var tileset = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
-        url: 'static/hangzhouBuilding/tileset.json'
+        url: 'http://124.221.0.175/hangzhoubuilding/tileset.json'
     }));
     DTGlobe.whiteModel=tileset;
     tileset.show=false;

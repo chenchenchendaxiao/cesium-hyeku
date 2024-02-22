@@ -13,6 +13,7 @@
     "d3": "^7.8.5",
     "d3-geo": "^3.1.0",
     "glsl-shader-loader": "^0.1.6",
+    "kokomi.js": "^1.9.93",
     "path-browserify": "^1.0.1",
     "text2svg": "^1.0.1",
     "three": "^0.153.0",
