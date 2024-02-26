@@ -192,7 +192,7 @@ export default {
             ),
             model: { 
               uri: 'static/长水塘地图5.glb',//注意entitits.add方式加载gltf文件时，这里是uri，不是url，并且这种方式只能加载.glb格式的文件
-              scale:7000.0,//缩放比例
+              scale:11000.0,//缩放比例
               // minimumPixelSize:7000,//最小像素大小，可以避免太小看不见
               //   maximumScale: 20000,//模型的最大比例尺大小。minimumPixelSize的上限  
               incrementallyLoadTextures: true,//加载模型后纹理是否可以继续流入
@@ -204,7 +204,7 @@ export default {
           }) 
           viewer.clock.shouldAnimate = false;//时间轴动画停止
           viewer.clock.currentTime = Cesium.JulianDate.fromIso8601("2023-09-01T06:00:00Z");
-          viewer.flyTo(entity)
+          // viewer.flyTo(entity)
             // 初始化定位
             // this.resetView()
             //添加城市人口柱状图

@@ -29,6 +29,7 @@ vec2 map(vec3 p){
 
     float d1=sdSphere(p-vec3(0.,0.,-2.),1.);
 
+
     float d2=sdSphere(p-vec3(0.,.8+abs(sin(iTime)),-2),.5);
     d1=opSmoothUnion(d1,d2,.5);
     d=opUnion(d,vec2(d1,1.));

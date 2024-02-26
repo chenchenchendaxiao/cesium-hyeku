@@ -104,7 +104,7 @@ export default {
           activeIcon: require('@/assets/imgs/行政区划-active.png'),
         },
         {
-          name: '区位地图',
+          name: '智慧湿地',
           icon: require('@/assets/imgs/区位地图.png'),
           activeIcon: require('@/assets/imgs/区位地图-active.png'),
         },
