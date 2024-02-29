@@ -1,6 +1,8 @@
 import * as kokomi from "kokomi.js";
 import * as THREE from "three";
-
+//引入着色器代码
+import testObjectVertexShader from "../Shaders/TestObject/vert.glsl";
+import testObjectFragmentShader from "../Shaders/TestObject/frag.glsl";
 
   export default class TestObject extends kokomi.Component {
     constructor(base) {
@@ -10,32 +12,8 @@ import * as THREE from "three";
       // const geometry = new THREE.PlaneGeometry(4, 4);
       //对应的材质
       const material = new THREE.ShaderMaterial({
-        vertexShader: /* glsl */ `
-        uniform float iTime;
-        uniform vec3 iResolution;
-        uniform vec4 iMouse;
-            
-        varying vec2 vUv;
-            
-        void main(){
-            vec3 p=position;
-            gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
-            
-            vUv=uv;
-        }
-          `,
-                        fragmentShader: /* glsl */ `
-        uniform float iTime;
-        uniform vec3 iResolution;
-        uniform vec4 iMouse;
-        
-        varying vec2 vUv;
-        
-        void main(){
-            vec2 uv=vUv;
-            gl_FragColor=vec4(uv,0.,1.);
-        }
-  `,
+        vertexShader: testObjectVertexShader,
+        fragmentShader: testObjectFragmentShader,
       });
       this.material = material;
       //   合并成mesh

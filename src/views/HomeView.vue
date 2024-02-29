@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div id="homePageShaderContainer"></div>
+    <div id="homePageShaderContainer" ></div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import { loadShader } from "@/assets/utils/loadShader";
 export default {
   name: 'HomeView',
   methods:{
-    loadShader:loadShader
+    loadShader:loadShader,
   },
   components: {
   },
@@ -28,7 +28,6 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(223, 223, 66);
-    z-index: 100000000 !important;
+    background-color: rgb(0, 0, 0);
 }
 </style>
