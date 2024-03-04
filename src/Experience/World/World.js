@@ -15,14 +15,13 @@ export default class World extends kokomi.Component {
         this.base.interactionManager.add(maku.mesh);
         maku.mesh.addEventListener("click", () => {
           //获取当前点击的实体
-          console.log(maku);
+          console.log(maku,maku.el.id,'图片id');
           //获取画廊中其他的实体
           const otherMakus = this.slider.ig.makuGroup.makus.filter(
             (item) => item !== maku
           );
 
           if (!this.currentActiveMesh) {//这个if下的代码只有在currentActiveMesh为null的时候才会执行 也就是当前没有选中的mesh
-            console.log(this.slider,'sliderrrr')
               //放大图像实体后禁用滚轮事件
               this.slider.ws.disable();
               // this.slider.dd.disable();

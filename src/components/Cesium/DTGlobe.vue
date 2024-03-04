@@ -173,16 +173,16 @@ export default {
               '\norientation: ' + JSON.stringify({heading: viewer.camera.heading, pitch: viewer.camera.pitch, roll: viewer.camera.roll }) + ',')
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
             //加载暗色底图
-            // let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
-            //  url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
-            //  subdomains:['0','1','2','3','4','5','6','7'],
-            //  layer: "tdtAnnoLayer",
-            //  style: "default",
-            //  format: "image/jpeg",
-            //   tileMatrixSetID: "GoogleMapsCompatible",
-            // }));
-            // darklayer.hue=3
-            // darklayer.contrast=-1.2
+            let darklayer=viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({  //调用矢量地图中文注记服务
+             url: "http://t{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=61f68aa6b5c7bcbbc0bc95028e8af220",
+             subdomains:['0','1','2','3','4','5','6','7'],
+             layer: "tdtAnnoLayer",
+             style: "default",
+             format: "image/jpeg",
+              tileMatrixSetID: "GoogleMapsCompatible",
+            }));
+            darklayer.hue=3
+            darklayer.contrast=-1.2
             const entity =  viewer.entities.add({
             name: 'testCake',
             position: Cesium.Cartesian3.fromDegrees(120.7012, 30.5678, 10),

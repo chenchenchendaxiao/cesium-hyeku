@@ -24,11 +24,11 @@ document.querySelector("#homePageShaderContainer").innerHTML = `
     </div>
 </div>
 <div class="gallery">
-    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/ySLGYKhVqH3BtN4.jpg" crossorigin="anonymous" alt="" />
-    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/BhmSdM2XA9yYftK.jpg" crossorigin="anonymous" alt="" />
-    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/CqIlJd1XO9rh68e.jpg" crossorigin="anonymous" alt="" />
-    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/RzwqhImAV9H57xs.jpg" crossorigin="anonymous" alt="" />
-    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/p3FME9qcUAnJixm.jpg" crossorigin="anonymous" alt="" />
+    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/ySLGYKhVqH3BtN4.jpg" crossorigin="anonymous" alt="" id="item1"/>
+    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/BhmSdM2XA9yYftK.jpg" crossorigin="anonymous" alt="" id="item2"/>
+    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/CqIlJd1XO9rh68e.jpg" crossorigin="anonymous" alt="" id="item3"/>
+    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/RzwqhImAV9H57xs.jpg" crossorigin="anonymous" alt="" id="item4"/>
+    <img class="gallery-item" src="https://s2.loli.net/2023/09/12/p3FME9qcUAnJixm.jpg" crossorigin="anonymous" alt="" id="item5"/>
 </div>
 `;
 new Experience("#sketch");
